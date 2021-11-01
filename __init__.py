@@ -11,21 +11,20 @@ from aqt.sound import play, clearAudioQueue, AVPlayer
 addon_path = os.path.dirname(__file__)
 user_files = os.path.join(addon_path, "user_files")
 
+#add sounds for extra buttons here
+file_names_by_ease = {
+	1: "again.mp3",
+	2: "hard.mp3",
+	3: "good.mp3",
+	4: "easy.mp3"
+}
+
 def answersound(card, ease, early):
-	#add sounds for extra buttons here
-	if ease == 1:
-		clearAudioQueue() #force feedback to play now. Apparently this has to be within the if to be defined. Or I have to stop using the python console as if it's the addon.
-		play(os.path.join(user_files, "again.mp3"))
-	if ease == 2:
-		clearAudioQueue()
-		play(os.path.join(user_files, "hard.mp3"))
-	if ease == 3:
-		clearAudioQueue()
-		play(os.path.join(user_files, "good.mp3"))
-	if ease == 4:
-		clearAudioQueue()
-		play(os.path.join(user_files, "easy.mp3"))
-	#add sounds for extra buttons here
+	if (ease not in file_names_by_ease.keys()): 
+	    return
+	clearAudioQueue() #force feedback to play now. Apparently this has to be within the if to be defined. Or I have to stop using the python console as if it's the addon.
+	play(os.path.join(user_files, file_names_by_ease[ease]))
+	
 	#preventclearingAudioQueue() #see ~~nextCard()~~ play_tags #force feedback to continue playing now
 hooks.schedv2_did_answer_review_card.append(answersound)
 
